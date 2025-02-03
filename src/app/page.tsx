@@ -10,7 +10,7 @@ import Navbar from '@/components/Navbar';
 export default function SearchPage() {
   const router = useRouter();
   const [username, setUsername] = useState('');
-  const [startDate, setStartDate] = useState<Date | null>(subDays(new Date(), 7));
+  const [startDate, setStartDate] = useState<Date | null>(subDays(new Date(), 6));
   const [endDate, setEndDate] = useState<Date | null>(new Date());
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false); // To track loading state
@@ -36,7 +36,7 @@ export default function SearchPage() {
       const response = await fetch(`${baseUrl}/api/v1/claims?${query}`);
       const data = await response.json();
 
-      if (response.ok && data.influencer_id) {
+      if (response.ok && data.data.influencer_id) {
         router.push(`/influencer/${data.data.influencer_id}`);
       } else {
         setError(data.message || 'An error occurred. Please try again later.');
@@ -51,7 +51,7 @@ export default function SearchPage() {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <div className="bg-gray-900 min-h-screen text-white">
+      <div className="bg-[#121212] min-h-screen text-white">
         <Navbar />
 
         {loading && (
@@ -89,7 +89,7 @@ export default function SearchPage() {
               label="Start Date"
               value={startDate}
               onChange={setStartDate}
-              minDate={subDays(new Date(), 7)}
+              minDate={subDays(new Date(), 6)}
               maxDate={new Date()}
               className="w-full mb-6"
             />

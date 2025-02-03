@@ -23,6 +23,7 @@ interface Influencer {
   trust_score: number;
   url: string;
   bio: string;
+  image_url: string;
   claims: InfluencerClaim[];
   topics: string[];
 }
@@ -62,17 +63,24 @@ const InfluencerPage = () => {
   if (!influencer) return <div className="text-center text-xl text-red-500">Influencer not found.</div>;
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-[#121212] text-white">
       <Navbar />
 
       <div className="max-w-7xl mx-auto p-4">
         {/* Influencer Name Section (Full Width) */}
-        <div className="bg-black text-green-500 p-16 rounded-b-lg shadow-md mb-8">
-          <h1 className="text-5xl font-extrabold tracking-tight text-center">
-            {influencer.name} <span className="text-lg text-gray-300">@{influencer.username}</span>
-          </h1>
-          <p className="text-lg mt-4 text-center">Followers: {influencer.followers}</p>
-          <p className="text-lg text-center">Trust Score: {influencer.trust_score}</p>
+        <div className="bg-black text-green-500 p-16 rounded-b-lg shadow-md mb-8 flex items-center justify-center">
+          <img
+            src={influencer.image_url}
+            alt={influencer.name}
+            className="w-24 h-24 rounded-full mr-6 shadow-md"
+          />
+          <div>
+            <h1 className="text-5xl font-extrabold tracking-tight text-center">
+              {influencer.name} <span className="text-lg text-gray-300">@{influencer.username}</span>
+            </h1>
+            <p className="text-lg mt-4 text-center">Followers: {influencer.followers}</p>
+            <p className="text-lg text-center">Trust Score: {influencer.trust_score.toFixed(2)}%</p>
+          </div>
         </div>
 
         {/* Bio Section */}
@@ -115,7 +123,7 @@ const InfluencerPage = () => {
                 </a>
               </div>
               <p className="mt-2">Status: {claim.status}</p>
-              <p className="mt-2">Score: {claim.score}</p>
+              <p className="mt-2">Score: {claim.score.toFixed(2)}%</p>
               <p className="mt-2">Claimed At: {new Date(claim.claimed_at).toLocaleString()}</p>
             </div>
           ))
